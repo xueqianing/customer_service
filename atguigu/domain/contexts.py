@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from typing import Any
 
 
@@ -24,8 +24,29 @@ class SystemContext:
     step_id: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {"flow_id": self.flow_id, "step_id": self.step_id}
+        return asdict(self)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SystemContext":
-        return cls(flow_id=data["flow_id"], step_id=data["step_id"])
+        clz = FLOW_ID_TO_CONTEXT_CLASS[data["flow_id"]]
+        return clz(**data)
+
+
+@dataclass
+class StartedSystemContext(SystemContext):
+    started_flow_id: str = ""
+    started_flow_name: str = ""
+
+
+@dataclass
+class InterruptedSystemContext(SystemContext):
+    interrupted_flow_id: str = ""
+    interrupted_flow_name: str = ""
+    started_flow_id: str = ""
+    started_flow_name: str = ""
+
+
+FLOW_ID_TO_CONTEXT_CLASS = {
+    "system_task_started": StartedSystemContext,
+    "system_task_interrupted": InterruptedSystemContext
+}
