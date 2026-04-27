@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
-from atguigu.task.flow.steps import FlowStep
+from atguigu.task.flow.steps import FlowStep, FlowStepType
 
 
 @dataclass(slots=True)
@@ -20,8 +20,19 @@ class Flow:
     slots: List[FlowSlot] = field(default_factory=list)
     name: str | None = None
 
+    def start_step(self) -> FlowStep|None:
+        for step in self.steps:
+            if step.type == FlowStepType.START:
+                return step
+        return None
 
 @dataclass(slots=True)
 class FlowsList:
     flows: List[Flow] = field(default_factory=list)
     slots: Dict[str, FlowSlot] = field(default_factory=dict)
+
+    def get_flow_by_id(self, flow_id: str) -> Flow | None:
+        for flow in self.flows:
+            if flow.id == flow_id:
+                return flow
+        return None

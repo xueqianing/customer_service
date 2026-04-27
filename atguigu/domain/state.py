@@ -101,7 +101,7 @@ class DialogueState:
             "sessions": [session.to_dict() for session in self.sessions],
             "current_session_id": self.current_session_id,
             "pending_turn": self.pending_turn.to_dict() if self.pending_turn else None,
-            }
+        }
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "DialogueState":
@@ -109,9 +109,60 @@ class DialogueState:
             sender_id=data["sender_id"],
             active_task=TaskContext.from_dict(data["active_task"]) if data["active_task"] else None,
             paused_tasks=[TaskContext.from_dict(task) for task in data["paused_tasks"]],
-            active_system_task=SystemContext.from_dict(data["active_system_task"]) if data["active_system_task"] else None,
+            active_system_task=SystemContext.from_dict(data["active_system_task"]) if data[
+                "active_system_task"] else None,
             focused_object=FocusedObject.from_dict(data["focused_object"]) if data["focused_object"] else None,
             sessions=[Session.from_dict(session) for session in data["sessions"]],
             current_session_id=data["current_session_id"],
             pending_turn=Turn.from_dict(data["pending_turn"]) if data["pending_turn"] else None
         )
+
+    def start_system_task(self, system_context: SystemContext):
+        """
+        启动系统任务
+        :param system_context:
+        :return:
+        """
+        self.active_system_task = system_context
+
+    def end_system_task(self):
+        """
+        关闭当前的系统任务
+        :return:
+        """
+        self.active_system_task = None
+
+    def interrupt_active_task(self):
+        """
+        中断当前任务
+        :return:
+        """
+        self.paused_tasks.append(self.active_task)
+        self.active_task = None
+
+    def start_task(self, task_context: TaskContext):
+        """
+        启动任务
+        :param task_context:
+        :return:
+        """
+        self.active_task = task_context
+
+    def set_slots(self, slots: dict[str, Any]):
+        """
+        更新slots
+        :param slots: set_slots command中的slots
+        :return:
+        """
+        self.active_task.slots.update(slots)
+
+    def cancel_active_task(self):
+        self.active_task = None
+        self.active_system_task = None
+
+    def resume_task(self, flow_id: str):
+        for task in self.paused_tasks:
+            if task.flow_id == flow_id:
+                self.active_task = task
+                self.paused_tasks.remove(task)
+                break

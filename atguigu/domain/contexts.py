@@ -45,8 +45,22 @@ class InterruptedSystemContext(SystemContext):
     started_flow_id: str = ""
     started_flow_name: str = ""
 
+@dataclass
+class CanceledSystemContext(SystemContext):
+    canceled_flow_id: str = ""
+    canceled_flow_name: str = ""
+
+
+@dataclass
+class ResumedSystemContext(SystemContext):
+    resumed_flow_id: str = ""
+    resumed_flow_name: str = ""
+
+
 
 FLOW_ID_TO_CONTEXT_CLASS = {
     "system_task_started": StartedSystemContext,
-    "system_task_interrupted": InterruptedSystemContext
+    "system_task_interrupted": InterruptedSystemContext,
+    "system_task_canceled": CanceledSystemContext,
+    "system_task_resumed": ResumedSystemContext
 }
