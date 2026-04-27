@@ -166,3 +166,9 @@ class DialogueState:
                 self.active_task = task
                 self.paused_tasks.remove(task)
                 break
+
+    def current_session(self) -> Session | None:
+        for session in self.sessions:
+            if session.session_id == self.current_session_id:
+                return session
+        return None
