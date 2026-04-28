@@ -45,6 +45,7 @@ class InterruptedSystemContext(SystemContext):
     started_flow_id: str = ""
     started_flow_name: str = ""
 
+
 @dataclass
 class CanceledSystemContext(SystemContext):
     canceled_flow_id: str = ""
@@ -57,10 +58,16 @@ class ResumedSystemContext(SystemContext):
     resumed_flow_name: str = ""
 
 
+@dataclass
+class CollectSystemContext(SystemContext):
+    slot_name: str = ""
+    response: dict[str, Any] = field(default_factory=dict)
+
 
 FLOW_ID_TO_CONTEXT_CLASS = {
     "system_task_started": StartedSystemContext,
     "system_task_interrupted": InterruptedSystemContext,
     "system_task_canceled": CanceledSystemContext,
-    "system_task_resumed": ResumedSystemContext
+    "system_task_resumed": ResumedSystemContext,
+    "system_collect_information": CollectSystemContext
 }

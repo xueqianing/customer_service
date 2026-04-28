@@ -172,3 +172,12 @@ class DialogueState:
             if session.session_id == self.current_session_id:
                 return session
         return None
+
+    def current_task(self):
+        return self.active_system_task or self.active_task
+
+    def remove_slot(self, slot_name: str):
+        self.active_task.slots.pop(slot_name)
+
+    def end_active_task(self):
+        self.active_task = None
