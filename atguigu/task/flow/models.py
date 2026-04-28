@@ -20,11 +20,18 @@ class Flow:
     slots: List[FlowSlot] = field(default_factory=list)
     name: str | None = None
 
-    def start_step(self) -> FlowStep|None:
+    def start_step(self) -> FlowStep | None:
         for step in self.steps:
             if step.type == FlowStepType.START:
                 return step
         return None
+
+    def get_step_by_id(self, step_id: str) -> FlowStep | None:
+        for step in self.steps:
+            if step.id == step_id:
+                return step
+        return None
+
 
 @dataclass(slots=True)
 class FlowsList:
