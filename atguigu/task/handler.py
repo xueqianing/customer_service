@@ -19,7 +19,7 @@ class TaskHandler:
         self.flow_executor: FlowExecutor = flow_executor
         self.action_runner: ActionRunner = action_runner
 
-    async def handle(self, commands: list[Command], state: DialogueState):
+    async def handle(self, commands: list[Command], state: DialogueState) -> list[BotMessage]:
         self.command_processor.run(commands, state, self.flows)
         messages: list[BotMessage] = await self.flow_executor.run_task(state, self.flows, self.action_runner)
-        state.pending_turn.bot_messages.extend(messages)
+        return messages
