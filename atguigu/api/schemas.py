@@ -27,7 +27,7 @@ class ChatResponse(BaseModel):
 
 
 class HistoryMessage(BaseModel):
-    role: str
+    role: str # user or bot
     text: str | None = None
     object: ChatObject | None = None
 

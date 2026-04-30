@@ -33,7 +33,8 @@ class ActionResponse(Action):
 
     def _render_text(self, text: str, state: DialogueState) -> str:
         template = Template(text)
-        result = template.render(slots=state.active_task.slots, context=state.active_system_task or state.active_task)
+        result = template.render(slots=state.active_task.slots if state.active_task else {},
+                                 context=state.active_system_task or state.active_task)
         return result
 
     async def _call_llm(self, prompt_text: str, state: DialogueState, rendered_text: str = "") -> str:
