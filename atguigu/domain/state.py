@@ -1,3 +1,5 @@
+import time
+import uuid
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -181,3 +183,35 @@ class DialogueState:
 
     def end_active_task(self):
         self.active_task = None
+
+    def start_session(self):
+        now = time.time()
+        session = Session(session_id=str(uuid.uuid4()),
+                          started_at=now,
+                          last_activity_at=now)
+        self.sessions.append(session)
+        self.current_session_id = session.session_id
+
+    def close_current_session(self):
+        self.current_session().closed_at = time.time()
+        self.current_session_id = None
+
+    def reset_runtime_state_for_new_session(self):
+        self.active_task = None
+        self.active_system_task = None
+        self.focused_object = None
+        self.paused_tasks = []
+
+    def begin_turn(self, message: UserMessage):
+        self.pending_turn = Turn(
+            turn_id=str(uuid.uuid4()),
+            user_message=message,
+            bot_messages=[]
+        )
+
+    def commit_pending_turn(self):
+        self.current_session().turns.append(self.pending_turn)
+        self.pending_turn = None
+
+    def set_focused_object(self, object: FocusedObject):
+        self.focused_object = object

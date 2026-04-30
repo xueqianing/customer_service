@@ -26,6 +26,8 @@ class KnowledgeProvider(ABC):
 
 
 class ProductAPIProvider(KnowledgeProvider):
+    provider_id = 'api.product'
+
     async def retrieve(self, state: DialogueState) -> list[KnowledgeChunk]:
         product_id = state.focused_object.id
         data: dict[str, Any] = await self._get_product_info_by_id(product_id)
@@ -39,6 +41,7 @@ class ProductAPIProvider(KnowledgeProvider):
 
 
 class OrderAPIProvider(KnowledgeProvider):
+    provider_id = 'api.order'
 
     async def retrieve(self, state: DialogueState) -> list[KnowledgeChunk]:
         focused_object = state.focused_object
@@ -76,12 +79,14 @@ class OrderAPIProvider(KnowledgeProvider):
 
 
 class FAQProvider(KnowledgeProvider):
+    provider_id = 'faq.default'
 
     async def retrieve(self, state: DialogueState) -> list[KnowledgeChunk]:
         return [KnowledgeChunk(content="未检索到相关问题")]
 
 
 class RAGProvider(KnowledgeProvider):
+    provider_id = 'rag.default'
 
     async def retrieve(self, state: DialogueState) -> list[KnowledgeChunk]:
         return [KnowledgeChunk(content="未检索到相关信息")]
