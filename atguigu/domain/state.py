@@ -88,7 +88,8 @@ class DialogueState:
     active_system_task: SystemContext | None = None
     focused_object: FocusedObject | None = None
     sessions: list[Session] = field(default_factory=list)
-    current_session_id: str | None = None
+    current_session_id: str | None = None,
+    pending_turn :Turn| None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -143,3 +144,9 @@ class DialogueState:
                 self.active_task = paused_task
                 self.paused_tasks.remove(paused_task)
                 break
+
+    def current_session(self) -> Session | None:
+        for session in self.sessions:
+            if session.session_id == self.current_session_id:
+                return session
+        return None
