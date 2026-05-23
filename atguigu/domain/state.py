@@ -115,3 +115,31 @@ class DialogueState:
             sessions=[Session.from_dict(s) for s in data.get("sessions", [])],
             current_session_id=data.get("current_session_id"),
         )
+
+    def end_system_task(self):
+        self.active_system_task = None
+
+
+    def interrupt_active_task(self):
+        self.active_task = None
+        self.paused_tasks.append(self.active_task)
+
+    def start_task(self, taskContext:TaskContext):
+        self.active_task = taskContext
+
+    def start_system_task(self, systemContext:SystemContext):
+        self.active_system_task = systemContext
+
+    def set_slots(self, slots):
+        self.active_task.slots.update( slots)
+
+    def cancel_active_task(self):
+        self.active_task = None
+        self.active_system_task = None
+
+    def resume_task(self, id):
+        for paused_task in self.paused_tasks:
+            if paused_task.flow_id == id:
+                self.active_task = paused_task
+                self.paused_tasks.remove(paused_task)
+                break

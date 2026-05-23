@@ -41,3 +41,30 @@ class SystemContext:
             flow_id=data["flow_id"],
             step_id=data.get("step_id"),
         )
+
+
+
+
+@dataclass
+class StartedSystemContext(SystemContext):
+    started_flow_id: str = ""
+    started_flow_name: str = ""
+
+
+@dataclass
+class InterruptedSystemContext(SystemContext):
+    interrupted_flow_id: str = ""
+    interrupted_flow_name: str = ""
+    started_flow_id: str = ""
+    started_flow_name: str = ""
+
+@dataclass
+class CanceledSystemContext(SystemContext):
+    canceled_flow_id: str = ""
+    canceled_flow_name: str = ""
+
+
+@dataclass
+class ResumedSystemContext(SystemContext):
+    resumed_flow_id: str = ""
+    resumed_flow_name: str = ""

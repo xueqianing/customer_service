@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from atguigu.flow.step import FlowStep
+from atguigu.flow.step import FlowStep, FlowStepType
 
 
 @dataclass
@@ -19,8 +19,19 @@ class Flow:
     slots: list[FlowSlot] = field(default_factory=list)
     name: str | None = None
 
+    def start_step(self) -> FlowStep|None:
+        for step in self.steps:
+            if step.type == FlowStepType.START:
+                return step
+        return None
 
 @dataclass
 class FlowsList:
     flows: list[Flow] = field(default_factory=list)
     slots: dict[str, FlowSlot] = field(default_factory=dict)
+
+    def get_flow_by_id(self, flow):
+        for flow in self.flows:
+            if flow.id == flow.id:
+                return flow
+        return None
