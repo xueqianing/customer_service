@@ -35,3 +35,9 @@ class FlowsList:
             if flow.id == flow.id:
                 return flow
         return None
+
+    def get_step_by_id(self, step_id: str) -> FlowStep | None:
+        for step in self.steps:
+            if step.id == step_id:
+                return step
+        return None
