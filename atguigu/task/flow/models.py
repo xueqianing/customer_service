@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from atguigu.flow.step import FlowStep, FlowStepType
+from atguigu.task.flow.step import FlowStep, FlowStepType
 
 
 @dataclass

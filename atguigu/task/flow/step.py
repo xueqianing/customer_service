@@ -1,9 +1,9 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List
+from typing import List, Any
 
-from atguigu.flow.links import FlowStepLink
+from atguigu.task.flow.links import FlowStepLink
 
 
 class FlowStepType(Enum):
@@ -12,19 +12,20 @@ class FlowStepType(Enum):
     COLLECT = "collect"
     END = "end"
 
-
+@dataclass
 class ResponseDefinition:
     mode:str ="static"
     text:str | None = None
     prompt:str | None = None
 
 
+@dataclass(slots=True)
 class SlotValidation:
     condition:str | None = None
     failure_response:ResponseDefinition | None = None
 
 
-@dataclass
+@dataclass(slots=True)
 class FlowStep:
     id:str
     type:FlowStepType

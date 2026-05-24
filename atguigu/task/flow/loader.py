@@ -2,9 +2,9 @@ from pathlib import Path
 
 import yaml
 
-from atguigu.flow.links import FlowStepLink, StaticLink, ConditionalLink, FallbackLink
-from atguigu.flow.models import FlowsList, FlowSlot, Flow
-from atguigu.flow.step import FlowStep
+from atguigu.task.flow.links import FlowStepLink, StaticLink, ConditionalLink, FallbackLink
+from atguigu.task.flow.models import FlowsList, FlowSlot, Flow
+from atguigu.task.flow.step import FlowStep
 
 
 class FlowLoader:

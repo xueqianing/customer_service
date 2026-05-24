@@ -1,11 +1,11 @@
-from atguigu.common.models import Command, StartFlowCommand, SetSlotsCommand, CancelFlowCommand, ResumeFlowCommand
+from atguigu.task.commmand.models import Command, StartFlowCommand, SetSlotsCommand, CancelFlowCommand, ResumeFlowCommand
 from atguigu.domain.contexts import TaskContext, InterruptedSystemContext, StartedSystemContext, CanceledSystemContext, \
     ResumedSystemContext
 from atguigu.domain.state import DialogueState
-from atguigu.flow.models import FlowsList, Flow
+from atguigu.task.flow.models import FlowsList, Flow
 
 
-class CommonProcessor:
+class CommandProcessor:
     def run(self,
             commands:list[Command],
             state:DialogueState,
