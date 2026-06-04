@@ -1,6 +1,8 @@
+import json
 from tkinter.filedialog import dialogstates
 
 from sqlalchemy import select
+from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from atguigu.domain.state import DialogueState
@@ -15,10 +17,24 @@ class DialogueStateRepository:
         result = await self.session.execute(sql)
         state = result.scalar_one_or_none()
         if state:
-            dialogue_state:DialogueState = None
+            dialogue_state:DialogueState = DialogueState.from_dict(
+                json.loads(state.state_json)
+            )
             return dialogue_state
         else:
             return DialogueState(sender_id=sender_id)
 
-    async def save_state(self, state):
-        pass
+    async def save_state(self, state: DialogueState):
+        # 将state序列化为一个json字符串
+        print(state.to_dict())
+        state_json: str = json.dumps(state.to_dict())
+        insert_stmt = insert(DialogueStateRecord).values(
+            sender_id=state.sender_id, state_json=state_json
+        )
+        upsert_stmt = insert_stmt.on_duplicate_key_update(
+            state_json=insert_stmt.inserted.state_json
+        )
+
+
+        await self.session.execute(upsert_stmt)
+        await self.session.commit()
