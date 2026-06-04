@@ -20,7 +20,7 @@ class Flow:
     slots:List[FlowSlot] = field(default_factory=list)
     name:str | None  = None
 
-
+@dataclass
 class FlowsList:
     flows:List[Flow] = field(default_factory=list)
     slots:Dict[str,FlowSlot] = field(default_factory=dict)
