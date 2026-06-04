@@ -2,7 +2,7 @@ from dataclasses import dataclass, field, fields
 from enum import Enum
 from typing import List, Any
 
-from atguigu.flow.links import FlowStepLink
+from atguigu.task.flow.links import FlowStepLink
 
 
 class FlowStepType(Enum):

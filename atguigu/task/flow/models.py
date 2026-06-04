@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
 
-from atguigu.flow.steps import FlowStep
+from atguigu.task.flow.steps import FlowStep
 
 
 @dataclass

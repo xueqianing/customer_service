@@ -2,8 +2,8 @@ from pathlib import Path
 
 import yaml
 
-from atguigu.flow.models import FlowSlot, Flow, FlowsList
-from atguigu.flow.steps import FlowStep, CollectSlotStep
+from atguigu.task.flow.models import FlowSlot, Flow, FlowsList
+from atguigu.task.flow.steps import FlowStep, CollectSlotStep
 
 
 class FlowLoader:
