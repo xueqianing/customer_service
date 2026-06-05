@@ -119,6 +119,9 @@ class DialogueState:
                 return session
         return None
 
+    def set_slots(self, slot:dict[str,Any]):
+        self.active_task.slots.update(slot)
+
 
 
 

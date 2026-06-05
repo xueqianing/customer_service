@@ -6,7 +6,7 @@ from sqlalchemy.dialects.mysql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from atguigu.domain.state import DialogueState
-from atguigu.models.DialogueStateRecord import DialogueStateRecord
+from atguigu.models.dialogue_state import DialogueStateRecord
 
 
 class DialogueStateRepository:
