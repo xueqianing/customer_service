@@ -113,6 +113,11 @@ class DialogueState:
             'current_session_id': self.current_session_id,
             'pending_turn': self.pending_turn.to_dict() if self.pending_turn else None
         }
+    def current_session_id(self) -> Session | None:
+        for session in self.sessions:
+            if session.session_id == self.current_session_id:
+                return session
+        return None
 
 
 
