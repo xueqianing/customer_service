@@ -122,6 +122,22 @@ class DialogueState:
     def set_slots(self, slot:dict[str,Any]):
         self.active_task.slots.update(slot)
 
+    def current_task(self):
+        return self.active_system_task or self.active_task
+
+    def end_system_task(self):
+        self.active_system_task = None
+
+    def end_active_task(self):
+        self.active_task = None
+
+    def remove_slot(self, slot_name):
+        self.active_task.slots.pop(slot_name)
+
+    def start_system_task(self,system_context:SystemContext):
+        self.active_system_task = system_context
+
+
 
 
 
