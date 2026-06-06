@@ -1,6 +1,6 @@
 from tenacity import retry
 
-from atguigu.domain.messages import MessageObject, BotMessage, UserMessage
+from atguigu.domain.messages import MessageObject, BotMessage, UserMessage, MessageType
 from atguigu.domain.state import Turn
 
 
@@ -43,5 +43,19 @@ class HistoryBuilder:
             return HistoryBuilder.render_text(user_message.text)
         else:
             return HistoryBuilder.render_object(user_message.object)
+
+    @staticmethod
+    def _render_user_message(user_message:UserMessage)-> str:
+        if user_message.type == MessageType.TEXT:
+            return HistoryBuilder.render_text(user_message.text)
+        else:
+            return HistoryBuilder.render_object(user_message.object)
+
+    @staticmethod
+    def _render_bot_message(bot_message: BotMessage):
+        if bot_message.text:
+            return HistoryBuilder.render_text(bot_message.text)
+        else:
+            return HistoryBuilder.render_object(bot_message.object)
 
 

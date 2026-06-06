@@ -137,6 +137,12 @@ class DialogueState:
     def start_system_task(self,system_context:SystemContext):
         self.active_system_task = system_context
 
+    def current_session(self) -> Session | None:
+        for session in self.sessions:
+            if session.session_id == self.current_session_id:
+                return session
+        return None
+
 
 
 
