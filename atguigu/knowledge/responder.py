@@ -6,7 +6,7 @@ from atguigu.domain.state import Turn
 from atguigu.infrastructure.llm import llm
 from atguigu.knowledge.providers import KnowledgeChunk
 from atguigu.prompts.history_builder import HistoryBuilder
-from atguigu.prompts.jinja2.prompt_loader import load_prompt
+from atguigu.prompts.prompt_loader import load_prompt
 
 
 class KnowledgeResponder:

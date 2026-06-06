@@ -1,0 +1,51 @@
+from dataclasses import field, dataclass
+from enum import Enum
+
+from atguigu.task.command.models import Command
+
+@dataclass
+class TaskTurnPlan:
+    commands:list[Command] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls,data:dict)-> "TaskTurnPlan":
+        return cls(commands=[Command.from_dict(command) for command in data["commands"]])
+@dataclass
+class KnowledgeTurnPlan:
+    intents:list[str] = field(default_factory=list)
+
+    @classmethod
+    def from_dict(cls,data:dict)-> "KnowledgeTurnPlan":
+        return cls(intents=data["intents"])
+@dataclass
+class ChitchatTurnPlan:
+    pass
+@dataclass
+class TurnPlan:
+    task:TaskTurnPlan | None = None
+    knowledge:KnowledgeTurnPlan | None = None
+    chitchat:ChitchatTurnPlan | None = None
+    @classmethod
+    def from_dict(cls,data:dict)-> "TurnPlan":
+        task = TaskTurnPlan.from_dict(data["task"]) if "task" in data else None
+        knowledge = KnowledgeTurnPlan.from_dict(data["knowledge"]) if "knowledge" in data else None
+        chitchat = ChitchatTurnPlan() if "clarify" in data else None
+        return cls(task=task,knowledge=knowledge,chitchat=chitchat)
+
+
+
+class ClarifyReason(str, Enum):
+    MISSING_TRACK = "missing_track"
+    MULTIPLE_TRACKS = "multiple_tracks"
+    MISSING_TASK_COMMANDS = "missing_task_commands"
+    MISSING_KNOWLEDGE_INTENT = "missing_knowledge_intent"
+    MISSING_FOCUSED_OBJECT = "missing_focused_object"
+    OBJECT_REQUIRES_INTENT = "object_requires_intent"
+
+
+@dataclass
+class TurnPlanValidationResult:
+    valid: bool
+    reason: ClarifyReason | None = None
+
+
